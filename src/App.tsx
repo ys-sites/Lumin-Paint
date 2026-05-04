@@ -63,31 +63,57 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
 
 
-const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, className?: string, delay?: number }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.7, delay, ease: "easeOut" }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
+// Detect mobile for animation optimization
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+  
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-const Section = ({ children, className = "", innerClassName = "", id, delay = 0 }: { children: React.ReactNode; className?: string; innerClassName?: string; id?: string; delay?: number }) => (
-  <section id={id} className={`py-20 px-6 ${className}`}>
-    <motion.div 
+  return isMobile;
+};
+
+const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, className?: string, delay?: number }) => {
+  const isMobile = useIsMobile();
+  
+  return (
+    <motion.div
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      className={`max-w-6xl mx-auto ${innerClassName}`}
+      transition={{ duration: isMobile ? 0.5 : 0.7, delay: isMobile ? 0 : delay, ease: "easeOut" }}
+      className={className}
+      style={{ transform: "translateZ(0)" }}
     >
       {children}
     </motion.div>
-  </section>
-);
+  );
+};
+
+const Section = ({ children, className = "", innerClassName = "", id, delay = 0 }: { children: React.ReactNode; className?: string; innerClassName?: string; id?: string; delay?: number }) => {
+  const isMobile = useIsMobile();
+  
+  return (
+    <section id={id} className={`py-20 px-6 ${className}`}>
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: isMobile ? 0.5 : 0.8, delay: isMobile ? 0 : delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+        className={`max-w-6xl mx-auto ${innerClassName}`}
+        style={{ transform: "translateZ(0)" }}
+      >
+        {children}
+      </motion.div>
+    </section>
+  );
+};
 
 
 const Logo = ({ className = "" }: { className?: string }) => (
@@ -107,16 +133,22 @@ const InfiniteImageLoop = () => {
     "/images/5.jpeg",
     "/images/6.jpeg",
   ];
+  const isMobile = useIsMobile();
 
   return (
     <div className="w-full overflow-hidden bg-neutral-50 py-10 border-y border-neutral-100">
       <motion.div 
-        className="flex gap-4 w-max"
+        className="flex gap-4 w-max infinite-scroll"
         animate={{ x: ["0%", "-50%"] }}
-        transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
+        transition={{ 
+          repeat: Infinity, 
+          ease: "linear", 
+          duration: isMobile ? 25 : 20
+        }}
+        style={{ transform: "translateZ(0)", willChange: "transform" }}
       >
         {[...images, ...images].map((src, i) => (
-          <div key={i} className="w-64 h-64 md:w-80 md:h-80 shrink-0 rounded-2xl overflow-hidden shadow-md">
+          <div key={i} className="w-64 h-64 md:w-80 md:h-80 shrink-0 rounded-2xl overflow-hidden shadow-md" style={{ transform: "translateZ(0)" }}>
             <img loading="lazy" src={src} alt={`Painting Project ${i % 6 + 1}`} className="w-full h-full object-cover" />
           </div>
         ))}
@@ -125,18 +157,23 @@ const InfiniteImageLoop = () => {
   );
 };
 
-const Card = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number; key?: React.Key }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 50, scale: 0.95 }}
-    whileInView={{ opacity: 1, y: 0, scale: 1 }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.7, delay }}
-    whileHover={{ y: -10, boxShadow: "0px 15px 30px rgba(0,0,0,0.08)" }}
-    className={`p-8 bg-white border border-neutral-200 shadow-sm rounded-2xl transition-all ${className}`}
-  >
-    {children}
-  </motion.div>
-);
+const Card = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number; key?: React.Key }) => {
+  const isMobile = useIsMobile();
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: isMobile ? 0.5 : 0.7, delay: isMobile ? 0 : delay }}
+      whileHover={!isMobile ? { y: -10, boxShadow: "0px 15px 30px rgba(0,0,0,0.08)" } : {}}
+      className={`p-8 bg-white border border-neutral-200 shadow-sm rounded-2xl transition-all ${className}`}
+      style={{ transform: "translateZ(0)" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 export default function App() {
   return (
@@ -258,15 +295,16 @@ function AppContent() {
             className="w-full h-full"
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 10, ease: "easeOut" }}
+            transition={{ duration: 8, ease: "easeOut" }}
             style={{
               backgroundImage: `url('/images/1.jpeg')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
+              transform: "translateZ(0)",
             }}
           />
-          <div className="absolute inset-0 bg-black/30"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
+          <div className="absolute inset-0 bg-black/30" style={{ transform: "translateZ(0)" }}></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" style={{ transform: "translateZ(0)" }}></div>
         </div>
         
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
@@ -274,6 +312,7 @@ function AppContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/10 text-white font-medium text-xs sm:text-sm mb-6 sm:mb-8 backdrop-blur-md border border-gold/40"
+            style={{ transform: "translateZ(0)" }}
           >
             <Sparkles size={14} className="text-gold" /> {t.hero.badge}
           </motion.div>
@@ -283,6 +322,7 @@ function AppContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 sm:mb-8 text-white drop-shadow-2xl leading-[1.1] max-w-4xl mx-auto"
+            style={{ transform: "translateZ(0)" }}
           >
             <ShinyText text={t.hero.title} color="#ffffff" shineColor="#D4AF37" speed={4} />
           </motion.h1>
@@ -292,6 +332,7 @@ function AppContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="text-base sm:text-lg md:text-xl text-white/90 mb-8 sm:mb-12 max-w-2xl mx-auto font-medium drop-shadow-lg leading-relaxed"
+            style={{ transform: "translateZ(0)" }}
           >
             {t.hero.subtitle}
           </motion.p>
@@ -301,6 +342,7 @@ function AppContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="flex flex-col items-center justify-center gap-4"
+            style={{ transform: "translateZ(0)" }}
           >
             <a href="#contact" className="bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg hover:bg-gold/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1">
               {t.hero.cta} <ArrowRight size={18} />
@@ -439,9 +481,10 @@ function AppContent() {
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: i * 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.08 }}
               whileHover={{ scale: 1.02 }}
               className="aspect-square rounded-2xl overflow-hidden shadow-sm"
+              style={{ transform: "translateZ(0)" }}
             >
               <img loading="lazy" src={src} alt={`Project ${i + 1}`} className="w-full h-full object-cover" />
             </motion.div>
@@ -457,19 +500,20 @@ function AppContent() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             className="relative h-[400px] md:h-auto w-full"
+            style={{ transform: "translateZ(0)" }}
           >
             <img 
               loading="lazy"
               src="/images/1.jpeg" 
               alt="Professional Painter" 
-              className="w-full h-full object-cover grayscale brightness-105 contrast-105 hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover grayscale brightness-105 contrast-105 hover:grayscale-0 transition-all duration-500"
             />
           </motion.div>
           
           {/* Content Side */}
-          <div className="bg-neutral-900 text-white p-12 md:p-20 lg:p-24 flex flex-col justify-center">
+          <div className="bg-neutral-900 text-white p-12 md:p-20 lg:p-24 flex flex-col justify-center" style={{ transform: "translateZ(0)" }}>
             <FadeIn delay={0.1}>
               <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight whitespace-nowrap">
                 <ShinyText text={t.about.title} color="#ffffff" shineColor="#D4AF37" speed={4} />
@@ -492,8 +536,9 @@ function AppContent() {
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: 0.4 + (0.1 * i) }}
+                  transition={{ duration: 0.4, delay: 0.4 + (0.08 * i) }}
                   className="flex items-start gap-4"
+                  style={{ transform: "translateZ(0)" }}
                 >
                   <div className="mt-2 w-2 h-2 rounded-full bg-primary shrink-0" />
                   <span className="text-white/90 text-lg">{item}</span>
@@ -527,12 +572,13 @@ function AppContent() {
         
         <FadeIn delay={0.2} className="relative w-full py-4">
           <motion.div 
-            className="flex gap-6 w-max"
+            className="flex gap-6 w-max infinite-scroll"
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
+            transition={{ repeat: Infinity, ease: "linear", duration: 35 }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
           >
             {t.testimonials.items.map((testimonial, i) => (
-              <div key={i} className="w-[350px] md:w-[400px] shrink-0">
+              <div key={i} className="w-[350px] md:w-[400px] shrink-0" style={{ transform: "translateZ(0)" }}>
                 <Card className="h-full flex flex-col justify-between bg-neutral-50 border-none !p-8 relative">
                   <div className="absolute bottom-6 right-6 text-primary/10 font-serif text-8xl leading-none select-none pointer-events-none">
                     <Quote size={80} className="text-primary/10" />
@@ -562,7 +608,7 @@ function AppContent() {
       {/* Frictionless CTA Form */}
       <Section id="contact" className="bg-neutral-50 border-y border-neutral-100 relative overflow-hidden group/main">
         {/* Background Images with Fade */}
-        <div className="absolute inset-0 z-0 pointer-events-auto">
+        <div className="absolute inset-0 z-0 pointer-events-auto hidden md:block">
           <div className="grid grid-cols-6 grid-rows-6 h-full">
             {[
               "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg",
@@ -572,7 +618,7 @@ function AppContent() {
               "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg",
               "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg"
             ].map((img, i) => (
-              <div key={i} className="relative group/item">
+              <div key={i} className="relative group/item" style={{ transform: "translateZ(0)" }}>
                 <img loading="lazy" src={img} alt="" className="w-full h-full object-cover opacity-5 group-hover/main:blur-sm group-hover/main:opacity-10 transition-all duration-500" />
                 <img loading="lazy" src={img} alt="" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/item:opacity-100 group-hover/item:blur-0 transition-all duration-300" />
               </div>
@@ -714,8 +760,9 @@ function AppContent() {
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-center gap-x-12 gap-y-10 items-center"
+          style={{ transform: "translateZ(0)" }}
         >
           <div className="flex flex-col items-start gap-4 shrink-0 md:w-1/3">
             <div className="text-white flex items-center gap-4">
@@ -760,9 +807,10 @@ function AppContent() {
         whileTap={{ scale: 0.9 }}
         className="fixed bottom-4 right-4 z-50 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-gold transition-colors group"
         aria-label="Call Lumin Paint Pro"
+        style={{ transform: "translateZ(0)" }}
       >
         <Phone size={24} className="group-hover:animate-bounce" />
-        <span className="absolute right-full mr-4 bg-white text-neutral-900 px-4 py-2 rounded-xl text-sm font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-neutral-100">
+        <span className="absolute right-full mr-4 bg-white text-neutral-900 px-4 py-2 rounded-xl text-sm font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-neutral-100 hidden sm:block">
           {t.hero.consultation.split('•')[0]} (514) 622-1599
         </span>
       </motion.a>

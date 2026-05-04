@@ -1,4 +1,8 @@
 .shiny-text {
   display: inline-block;
-  will-change: background-position;
+  will-change: background-position, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  contain: layout style paint;
 }
