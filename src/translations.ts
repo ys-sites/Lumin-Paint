@@ -46,7 +46,7 @@ export const translations = {
       ]
     },
     about: {
-      title: "Why Lumin Paint Pro |",
+      title: "Why Lumin Paint Pro",
       subtitle: "A service for distinguished homeowners",
       desc: "At Lumin Paint Pro, we elevate the standard of painting services. Our commitment to excellence shows in every project:",
       points: [
@@ -92,11 +92,13 @@ export const translations = {
         }
       },
       services: [
-        "Signature Interior",
-        "Signature Exterior",
-        "Commercial Aesthetics",
-        "Custom Finishing",
-        "Cabinet Refinishing"
+        "Residential Interior",
+        "Residential Exterior",
+        "Commercial Interior",
+        "Commercial Exterior",
+        "Kitchen Cabinets / Staining",
+        "Deck Stain",
+        "Custom Service Request"
       ]
     },
     footer: {
@@ -156,7 +158,7 @@ export const translations = {
       ]
     },
     about: {
-      title: "Pourquoi Lumin Paint Pro |",
+      title: "Pourquoi Lumin Paint Pro",
       subtitle: "Un service pour les propriétaires distingués",
       desc: "Chez Lumin Paint Pro, nous élevons le standard des services de peinture. Notre engagement envers l'excellence se voit dans chaque projet :",
       points: [
@@ -202,11 +204,13 @@ export const translations = {
         }
       },
       services: [
-        "Intérieur Signature",
-        "Extérieur Signature",
-        "Esthétique Commerciale",
-        "Finition sur mesure",
-        "Restauration d'armoires"
+        "Intérieur Résidentiel",
+        "Extérieur Résidentiel",
+        "Intérieur Commercial",
+        "Extérieur Commercial",
+        "Armoires de cuisine / Teinture",
+        "Teinture de terrasse",
+        "Demande de service personnalisé"
       ]
     },
     footer: {

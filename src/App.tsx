@@ -7,6 +7,7 @@ import React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, CheckCircle, Star, Phone, Mail, MapPin, ChevronDown, Instagram, Clock, ShieldCheck, Sparkles, Facebook, Quote, ChevronLeft, ChevronRight, Globe, Image as ImageIcon } from "lucide-react";
 import { translations } from "./translations";
+import ShinyText from "./components/ShinyText";
 
 
 // Error Boundary Component
@@ -62,10 +63,22 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
 
 
+const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, className?: string, delay?: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.7, delay, ease: "easeOut" }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
 const Section = ({ children, className = "", innerClassName = "", id, delay = 0 }: { children: React.ReactNode; className?: string; innerClassName?: string; id?: string; delay?: number }) => (
   <section id={id} className={`py-20 px-6 ${className}`}>
     <motion.div 
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
@@ -104,7 +117,7 @@ const InfiniteImageLoop = () => {
       >
         {[...images, ...images].map((src, i) => (
           <div key={i} className="w-64 h-64 md:w-80 md:h-80 shrink-0 rounded-2xl overflow-hidden shadow-md">
-            <img src={src} alt={`Painting Project ${i % 6 + 1}`} className="w-full h-full object-cover" />
+            <img loading="lazy" src={src} alt={`Painting Project ${i % 6 + 1}`} className="w-full h-full object-cover" />
           </div>
         ))}
       </motion.div>
@@ -114,10 +127,10 @@ const InfiniteImageLoop = () => {
 
 const Card = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number; key?: React.Key }) => (
   <motion.div 
-    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+    initial={{ opacity: 0, y: 50, scale: 0.95 }}
     whileInView={{ opacity: 1, y: 0, scale: 1 }}
     viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.5, delay }}
+    transition={{ duration: 0.7, delay }}
     whileHover={{ y: -10, boxShadow: "0px 15px 30px rgba(0,0,0,0.08)" }}
     className={`p-8 bg-white border border-neutral-200 shadow-sm rounded-2xl transition-all ${className}`}
   >
@@ -152,7 +165,7 @@ function AppContent() {
     setStatus('loading');
     
     try {
-      const response = await fetch('https://services.leadconnectorhq.com/hooks/o7aUwpKbtkP4AOP0pEjC/webhook-trigger/162782af-467c-44ec-8e0a-890a65bb1f8b', {
+      const response = await fetch('https://services.leadconnectorhq.com/hooks/o7aUwpKbtkP4AOP0pEjC/webhook-trigger/37f87a0e-bdb3-4e64-92d2-9a15eb22b56c', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -179,13 +192,12 @@ function AppContent() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50"
+        className="absolute top-2 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50"
       >
-        <nav className="bg-white border border-neutral-200/50 rounded-full px-3 py-2 flex items-center justify-between shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+        <nav className="bg-white border border-neutral-200/50 rounded-full px-3 py-1 flex items-center justify-between shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
           <div className="flex items-center gap-6">
             <a href="#" className="pl-3 flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <Logo className="w-20 h-20" />
-              <span className="text-lg font-bold tracking-tight text-neutral-900 whitespace-nowrap">Lumin Paint Pro</span>
+              <Logo className="w-16 h-16" />
             </a>
             
             <div className="hidden lg:flex items-center bg-neutral-100/50 rounded-full p-1 gap-1">
@@ -272,7 +284,7 @@ function AppContent() {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 sm:mb-8 text-white drop-shadow-2xl leading-[1.1] max-w-4xl mx-auto"
           >
-            {t.hero.title}
+            <ShinyText text={t.hero.title} color="#ffffff" shineColor="#D4AF37" speed={4} />
           </motion.h1>
           
           <motion.p 
@@ -304,62 +316,72 @@ function AppContent() {
 
       {/* Services */}
       <Section id="services">
-        <div className="text-center mb-8 sm:mb-12 px-4">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 tracking-tight">{t.services.title}</h2>
+        <FadeIn className="text-center mb-8 sm:mb-12 px-4">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 tracking-tight">
+            <ShinyText text={t.services.title} color="#171717" shineColor="#D4AF37" speed={4} />
+          </h2>
           <p className="text-neutral-600 max-w-2xl mx-auto text-sm sm:text-base">{t.services.subtitle}</p>
-        </div>
+        </FadeIn>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto px-4">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
             className="md:col-span-2 bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-neutral-100 hover:border-primary/30 transition-colors group relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
             <div className="absolute top-0 right-0 p-6 sm:p-8 opacity-5 group-hover:opacity-10 transition-opacity">
               <Sparkles size={80} sm-size={120} />
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 relative z-10">{t.services.exterior.title}</h3>
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 relative z-10">
+              <ShinyText text={t.services.exterior.title} color="#171717" shineColor="#D4AF37" speed={5} />
+            </h3>
             <p className="text-neutral-600 text-base sm:text-lg max-w-md relative z-10">{t.services.exterior.desc}</p>
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
             className="bg-neutral-50 rounded-3xl p-6 sm:p-8 border border-neutral-100 hover:border-primary/30 transition-colors group relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
-            <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 relative z-10">{t.services.interior.title}</h3>
+            <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 relative z-10">
+              <ShinyText text={t.services.interior.title} color="#171717" shineColor="#D4AF37" speed={5} />
+            </h3>
             <p className="text-neutral-600 text-xs sm:text-sm relative z-10">{t.services.interior.desc}</p>
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
             className="bg-neutral-50 rounded-3xl p-6 sm:p-8 border border-neutral-100 hover:border-primary/30 transition-colors group relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
-            <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 relative z-10">{t.services.dye.title}</h3>
+            <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 relative z-10">
+              <ShinyText text={t.services.dye.title} color="#171717" shineColor="#D4AF37" speed={5} />
+            </h3>
             <p className="text-neutral-600 text-xs sm:text-sm relative z-10">{t.services.dye.desc}</p>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
             className="md:col-span-2 bg-primary text-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-center items-start relative overflow-hidden"
           >
             <div className="absolute -right-10 -bottom-10 opacity-10">
               <ShieldCheck size={150} sm-size={200} />
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold mb-2">{t.services.cta.title}</h3>
+            <h3 className="text-xl sm:text-2xl font-bold mb-2">
+              <ShinyText text={t.services.cta.title} color="#ffffff" shineColor="#FFF8D6" speed={4} />
+            </h3>
             <p className="text-white/80 mb-5 sm:mb-6 max-w-md text-sm sm:text-base">{t.services.cta.subtitle}</p>
             <a href="#contact" className="bg-white text-primary px-5 sm:px-6 py-3 sm:py-3 rounded-full font-bold text-xs sm:text-sm hover:bg-neutral-50 transition-colors flex items-center gap-2">
               {t.services.cta.button} <ArrowRight size={14} sm-size={16} />
@@ -369,10 +391,10 @@ function AppContent() {
 
         {/* Social Proof */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
           className="mt-16 pt-8 border-t border-neutral-100 flex flex-col md:flex-row items-center justify-center gap-8 opacity-80"
         >
           <p className="text-neutral-500 font-medium text-sm uppercase tracking-widest">{t.services.socialProof}</p>
@@ -383,7 +405,7 @@ function AppContent() {
               "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
               "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
             ].map((img, i) => (
-              <img key={i} src={img} alt="Client" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
+              <img loading="lazy" key={i} src={img} alt="Client" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
             ))}
             <div className="w-10 h-10 rounded-full border-2 border-white bg-neutral-100 flex items-center justify-center text-xs font-bold text-neutral-600">
               +50
@@ -401,10 +423,12 @@ function AppContent() {
 
       {/* Gallery */}
       <Section id="gallery" className="bg-white">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 tracking-tight">Our Work Gallery</h2>
+        <FadeIn className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 tracking-tight">
+            <ShinyText text="Our Work Gallery" color="#171717" shineColor="#D4AF37" speed={4} />
+          </h2>
           <p className="text-neutral-600 max-w-2xl mx-auto">Explore all our premium painting projects across Montreal.</p>
-        </div>
+        </FadeIn>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {[
             "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", 
@@ -412,13 +436,14 @@ function AppContent() {
           ].map((src, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: i * 0.1 }}
               whileHover={{ scale: 1.02 }}
               className="aspect-square rounded-2xl overflow-hidden shadow-sm"
             >
-              <img src={src} alt={`Project ${i + 1}`} className="w-full h-full object-cover" />
+              <img loading="lazy" src={src} alt={`Project ${i + 1}`} className="w-full h-full object-cover" />
             </motion.div>
           ))}
         </div>
@@ -428,31 +453,46 @@ function AppContent() {
       <Section id="about" className="!py-0 !px-0" innerClassName="!max-w-none !mx-0">
         <div className="grid md:grid-cols-2 min-h-[600px]">
           {/* Image Side */}
-          <div className="relative h-[400px] md:h-auto w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8 }}
+            className="relative h-[400px] md:h-auto w-full"
+          >
             <img 
+              loading="lazy"
               src="/images/1.jpeg" 
               alt="Professional Painter" 
               className="w-full h-full object-cover grayscale brightness-105 contrast-105 hover:grayscale-0 transition-all duration-700"
             />
-          </div>
+          </motion.div>
           
           {/* Content Side */}
           <div className="bg-neutral-900 text-white p-12 md:p-20 lg:p-24 flex flex-col justify-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{t.about.title}</h2>
-            <p className="text-xl font-medium mb-8 text-white/80">{t.about.subtitle}</p>
+            <FadeIn delay={0.1}>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight whitespace-nowrap">
+                <ShinyText text={t.about.title} color="#ffffff" shineColor="#D4AF37" speed={4} />
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <p className="text-xl font-medium mb-8 text-white/80">{t.about.subtitle}</p>
+            </FadeIn>
             
-            <p className="mb-8 text-white/70 leading-relaxed text-lg">
-              {t.about.desc}
-            </p>
+            <FadeIn delay={0.3}>
+              <p className="mb-8 text-white/70 leading-relaxed text-lg">
+                {t.about.desc}
+              </p>
+            </FadeIn>
             
             <ul className="space-y-4 mb-10">
               {t.about.points.map((item, i) => (
                 <motion.li 
                   key={i} 
-                  initial={{ opacity: 0, x: -20, scale: 0.95 }}
-                  whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 * i }}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: 0.4 + (0.1 * i) }}
                   className="flex items-start gap-4"
                 >
                   <div className="mt-2 w-2 h-2 rounded-full bg-primary shrink-0" />
@@ -461,25 +501,31 @@ function AppContent() {
               ))}
             </ul>
             
-            <p className="mb-10 text-white/90 font-medium text-lg">
-              <span className="underline underline-offset-4 decoration-primary">{t.about.goal}</span>
-            </p>
+            <FadeIn delay={0.7}>
+              <p className="mb-10 text-white/90 font-medium text-lg">
+                <span className="underline underline-offset-4 decoration-primary">{t.about.goal}</span>
+              </p>
+            </FadeIn>
             
-            <div>
+            <FadeIn delay={0.8}>
               <a href="#contact" className="inline-block bg-primary text-white px-8 py-4 font-bold hover:bg-gold/90 transition-colors rounded-sm">
                 {t.about.cta}
               </a>
-            </div>
+            </FadeIn>
           </div>
         </div>
       </Section>
 
       {/* Proof - Validating the Outcome */}
       <Section id="testimonials" className="overflow-hidden">
-        <h2 className="text-4xl font-bold mb-4 text-center tracking-tight">{t.testimonials.title}</h2>
-        <p className="text-neutral-600 text-center mb-12 max-w-2xl mx-auto">{t.testimonials.subtitle}</p>
+        <FadeIn>
+          <h2 className="text-4xl font-bold mb-4 text-center tracking-tight">
+            <ShinyText text={t.testimonials.title} color="#171717" shineColor="#D4AF37" speed={4} />
+          </h2>
+          <p className="text-neutral-600 text-center mb-12 max-w-2xl mx-auto">{t.testimonials.subtitle}</p>
+        </FadeIn>
         
-        <div className="relative w-full py-4">
+        <FadeIn delay={0.2} className="relative w-full py-4">
           <motion.div 
             className="flex gap-6 w-max"
             animate={{ x: ["0%", "-50%"] }}
@@ -506,11 +552,11 @@ function AppContent() {
                       <p className="text-sm text-neutral-500">{testimonial.role}</p>
                     </div>
                   </div>
-                </Card>
+                 </Card>
               </div>
             ))}
           </motion.div>
-        </div>
+        </FadeIn>
       </Section>
 
       {/* Frictionless CTA Form */}
@@ -527,20 +573,22 @@ function AppContent() {
               "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg"
             ].map((img, i) => (
               <div key={i} className="relative group/item">
-                <img src={img} alt="" className="w-full h-full object-cover opacity-5 group-hover/main:blur-sm group-hover/main:opacity-10 transition-all duration-500" />
-                <img src={img} alt="" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/item:opacity-100 group-hover/item:blur-0 transition-all duration-300" />
+                <img loading="lazy" src={img} alt="" className="w-full h-full object-cover opacity-5 group-hover/main:blur-sm group-hover/main:opacity-10 transition-all duration-500" />
+                <img loading="lazy" src={img} alt="" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/item:opacity-100 group-hover/item:blur-0 transition-all duration-300" />
               </div>
             ))}
           </div>
         </div>
 
         <div className="max-w-3xl mx-auto relative z-10 px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">{t.contact.title}</h2>
+          <FadeIn className="text-center mb-8">
+            <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
+              <ShinyText text={t.contact.title} color="#171717" shineColor="#D4AF37" speed={4} />
+            </h2>
             <p className="text-neutral-600 text-base md:text-lg">{t.contact.subtitle}</p>
-          </div>
+          </FadeIn>
           
-          <Card className="!p-6 md:!p-10 shadow-xl shadow-neutral-200/50 border-none">
+          <Card className="!p-6 md:!p-10 shadow-xl shadow-neutral-200/50 border-none" delay={0.2}>
             {status === 'success' ? (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -629,7 +677,7 @@ function AppContent() {
                 </div>
                 
                 <div>
-                  <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.details} (Optional)</label>
+                  <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.details}</label>
                   <textarea 
                     className="w-full px-3 md:px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm md:text-base" 
                     rows={3} 
@@ -663,7 +711,7 @@ function AppContent() {
       {/* Footer */}
       <footer className="bg-neutral-950 text-neutral-400 py-10 border-t border-neutral-900">
         <motion.div 
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -671,10 +719,7 @@ function AppContent() {
         >
           <div className="flex flex-col items-start gap-4 shrink-0 md:w-1/3">
             <div className="text-white flex items-center gap-4">
-              <Logo className="w-16 h-16" />
-              <div className="flex flex-col gap-2">
-                <span className="text-2xl font-bold tracking-tight">Lumin Paint Pro</span>
-              </div>
+              <Logo className="w-32 h-auto bg-white p-2 md:p-3 rounded-2xl" />
             </div>
           </div>
           
