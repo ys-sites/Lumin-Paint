@@ -508,7 +508,7 @@ function AppContent() {
               loading="lazy"
               src="/images/1.jpeg" 
               alt="Professional Painter" 
-              className="w-full h-full object-cover grayscale brightness-105 contrast-105 hover:grayscale-0 transition-all duration-500"
+              className="w-full h-full object-cover brightness-105 contrast-105 transition-all duration-500 md:grayscale md:hover:grayscale-0"
             />
           </motion.div>
           
