@@ -543,8 +543,8 @@ function AppContent() {
           <BeforeAfterCard
             title="Staircase Wall Revival"
             category="Staircase Wall"
-            beforeSrc="/images/before 2.jpeg"
-            afterSrc="/images/after 2.jpeg"
+            beforeSrc="/images/after 2.jpeg"
+            afterSrc="/images/before 2.jpeg"
           />
           <BeforeAfterCard
             title="Container Renovation"
@@ -674,12 +674,12 @@ function AppContent() {
         <div className="absolute inset-0 z-0 pointer-events-auto hidden md:block">
           <div className="grid grid-cols-6 grid-rows-6 h-full">
             {[
-              "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg",
-              "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg",
-              "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg",
-              "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg",
-              "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg",
-              "/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/6.jpeg"
+              "/images/1.jpeg", "/images/4.jpeg", "/images/3.jpeg", "/images/6.jpeg", "/images/2.jpeg", "/images/5.jpeg",
+              "/images/2.jpeg", "/images/5.jpeg", "/images/6.jpeg", "/images/1.jpeg", "/images/4.jpeg", "/images/3.jpeg",
+              "/images/3.jpeg", "/images/6.jpeg", "/images/1.jpeg", "/images/5.jpeg", "/images/2.jpeg", "/images/4.jpeg",
+              "/images/4.jpeg", "/images/1.jpeg", "/images/5.jpeg", "/images/2.jpeg", "/images/6.jpeg", "/images/3.jpeg",
+              "/images/5.jpeg", "/images/2.jpeg", "/images/4.jpeg", "/images/3.jpeg", "/images/1.jpeg", "/images/6.jpeg",
+              "/images/6.jpeg", "/images/3.jpeg", "/images/2.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/1.jpeg"
             ].map((img, i) => (
               <div key={i} className="relative group/item" style={{ transform: "translateZ(0)" }}>
                 <img loading="lazy" src={img} alt="" className="w-full h-full object-cover opacity-5 group-hover/main:blur-sm group-hover/main:opacity-10 transition-all duration-500" />
