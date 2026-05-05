@@ -116,62 +116,63 @@ const Section = ({ children, className = "", innerClassName = "", id, delay = 0 
 };
 
 
-const TabLogo = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 64 64" className={className} xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2">
-    <rect x="10" y="12" width="44" height="40" rx="10" fill="#D4AF37" stroke="none" />
-    <path d="M18 22h28" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
-    <path d="M18 30h28" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
-    <path d="M18 38h28" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
-    <path d="M20 18c2-4 6-6 10-6s8 2 10 6" stroke="#ffffff" strokeWidth="2" fill="transparent" />
-  </svg>
-);
-
 const Logo = ({ className = "" }: { className?: string }) => (
   <img 
-    src="/images/Lumin Paint pro.png" 
-    alt="Lumin Paint Pro brand logo" 
+    src="/images/lumin-paint-pro.svg" 
+    alt="Lumin Paint Pro logo" 
     className={`${className} object-contain`} 
     decoding="async"
   />
 );
 
-const BeforeAfterSlider = ({ beforeSrc, afterSrc, beforeLabel = "Before", afterLabel = "After" }: { beforeSrc: string; afterSrc: string; beforeLabel?: string; afterLabel?: string }) => {
+const BeforeAfterCard = ({ title, category, beforeSrc, afterSrc }: { title: string; category: string; beforeSrc: string; afterSrc: string }) => {
   const [slider, setSlider] = React.useState(50);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <div className="relative rounded-[28px] overflow-hidden border border-neutral-200 shadow-sm bg-black">
-        <img src={beforeSrc} alt="Before painting exterior transformation" className="w-full h-[450px] md:h-[520px] object-cover" loading="eager" fetchpriority="high" decoding="async" />
-        <div className="absolute inset-0 overflow-hidden" style={{ width: `${slider}%` }}>
-          <img src={afterSrc} alt="After painting exterior transformation" className="w-full h-[450px] md:h-[520px] object-cover" loading="eager" fetchpriority="high" decoding="async" />
+    <motion.div 
+      initial={{ opacity: 0, y: 50, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6 }}
+      className="rounded-[28px] overflow-hidden bg-white border border-neutral-200 shadow-sm"
+      style={{ transform: "translateZ(0)" }}
+    >
+      <div className="px-6 py-5">
+        <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.26em] font-bold text-primary mb-3">
+          <span>{category}</span>
+          <span className="text-neutral-500">Slide to compare</span>
         </div>
-        <div className="absolute inset-x-0 top-4 flex items-center justify-between px-5">
-          <span className="bg-black/70 text-white text-xs uppercase tracking-[0.2em] py-2 px-3 rounded-full shadow-sm">{beforeLabel}</span>
-          <span className="bg-black/70 text-white text-xs uppercase tracking-[0.2em] py-2 px-3 rounded-full shadow-sm">{afterLabel}</span>
+        <h3 className="text-xl sm:text-2xl font-semibold text-neutral-900 mb-4">{title}</h3>
+      </div>
+
+      <div className="relative overflow-hidden bg-neutral-900">
+        <img src={beforeSrc} alt={`${title} before painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
+        <div className="absolute inset-0 overflow-hidden" style={{ width: `${slider}%` }}>
+          <img src={afterSrc} alt={`${title} after painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
+        </div>
+        <div className="absolute inset-x-0 top-4 px-5 flex items-center justify-between">
+          <span className="bg-black/70 text-white text-[11px] uppercase tracking-[0.22em] py-2 px-3 rounded-full">Before</span>
+          <span className="bg-black/70 text-white text-[11px] uppercase tracking-[0.22em] py-2 px-3 rounded-full">After</span>
         </div>
         <div className="absolute inset-y-0 left-0 right-0 pointer-events-none">
-          <div className="absolute top-0 left-0 right-0 bottom-0"
-            style={{ background: `linear-gradient(90deg, transparent ${slider - 1}%, rgba(0,0,0,0.08) ${slider - 1}%, rgba(0,0,0,0.08) ${slider + 1}%, transparent ${slider + 1}%)` }}
-          />
-          <div className="absolute top-1/2 -translate-y-1/2" style={{ left: `${slider}%` }}>
-            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-xl border border-white -translate-x-1/2">
-              <div className="w-3 h-3 rounded-full bg-primary" />
+          <div className="absolute top-0 bottom-0 bg-white/80" style={{ left: `${slider}%`, width: "2px" }} />
+          <div className="absolute top-1/2" style={{ left: `${slider}%`, transform: "translate(-50%, -50%)" }}>
+            <div className="h-12 w-12 rounded-full bg-white shadow-xl border border-neutral-200 flex items-center justify-center">
+              <div className="h-3 w-3 rounded-full bg-primary" />
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-5 px-4">
         <input
           type="range"
           min="0"
           max="100"
           value={slider}
           onChange={(e) => setSlider(Number(e.target.value))}
-          className="w-full accent-primary"
-          aria-label="Adjust before and after slider"
+          aria-label={`Compare before and after for ${title}`}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize"
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -289,9 +290,6 @@ function AppContent() {
             </a>
             
             <div className="hidden lg:flex items-center bg-neutral-100/50 rounded-full p-1 gap-2">
-              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white shadow-sm">
-                <TabLogo className="w-6 h-6" />
-              </span>
               <a 
                 href="#hero" 
                 className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F4E3A1] text-neutral-900 shadow-sm transition-all"
@@ -526,32 +524,31 @@ function AppContent() {
           <p className="text-neutral-600 max-w-2xl mx-auto">Explore the real transformation with a before and after slider of our recent exterior work.</p>
         </FadeIn>
 
-        <FadeIn className="mb-12">
-          <BeforeAfterSlider beforeSrc="/images/before.jpeg" afterSrc="/images/after.jpeg" />
-        </FadeIn>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {[
-            { src: "/images/before 1.jpeg", alt: "Montreal exterior before painting" },
-            { src: "/images/after 1.jpeg", alt: "Montreal exterior after professional painting" },
-            { src: "/images/before 2.jpeg", alt: "Before painting home exterior" },
-            { src: "/images/after 2.jpeg", alt: "After premium exterior paint finish" },
-            { src: "/images/before 3.jpeg", alt: "Before residential exterior paint renovation" },
-            { src: "/images/after 4.jpeg", alt: "After residential exterior paint transformation" }
-          ].map((item, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
-              whileHover={{ scale: 1.02 }}
-              className="aspect-square rounded-2xl overflow-hidden shadow-sm"
-              style={{ transform: "translateZ(0)" }}
-            >
-              <img loading="lazy" decoding="async" src={item.src} alt={item.alt} className="w-full h-full object-cover" />
-            </motion.div>
-          ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <BeforeAfterCard
+            title="Fireplace Feature Revival"
+            category="Interior Renovation"
+            beforeSrc="/images/before.jpeg"
+            afterSrc="/images/after.jpeg"
+          />
+          <BeforeAfterCard
+            title="Siding Color Refresh"
+            category="Exterior Renovation"
+            beforeSrc="/images/before 1.jpeg"
+            afterSrc="/images/after 1.jpeg"
+          />
+          <BeforeAfterCard
+            title="Seamless Wall Restoration"
+            category="Interior Renovation"
+            beforeSrc="/images/before 2.jpeg"
+            afterSrc="/images/after 2.jpeg"
+          />
+          <BeforeAfterCard
+            title="Modern Deck Transformation"
+            category="Deck Renovation"
+            beforeSrc="/images/before 3.jpeg"
+            afterSrc="/images/after 4.jpeg"
+          />
         </div>
       </Section>
 
