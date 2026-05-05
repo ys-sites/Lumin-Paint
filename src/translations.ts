@@ -3,7 +3,7 @@ export const translations = {
     nav: {
       home: "Home",
       services: "Services",
-      gallery: "Gallery",
+      portfolio: "Portfolio",
       reviews: "Reviews",
       getQuote: "Get a Quote"
     },
@@ -115,7 +115,7 @@ export const translations = {
     nav: {
       home: "Accueil",
       services: "Services",
-      gallery: "Galerie",
+      portfolio: "Portfolio",
       reviews: "Avis",
       getQuote: "Obtenir un devis"
     },
