@@ -543,8 +543,8 @@ function AppContent() {
           <BeforeAfterCard
             title="Staircase Wall Revival"
             category="Staircase Wall"
-            beforeSrc="/images/after 2.jpeg"
-            afterSrc="/images/before 2.jpeg"
+            beforeSrc="/images/before 2.jpeg"
+            afterSrc="/images/after 2.jpeg"
           />
           <BeforeAfterCard
             title="Container Renovation"
