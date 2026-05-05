@@ -290,9 +290,6 @@ function AppContent() {
             </a>
             
             <div className="hidden lg:flex items-center bg-neutral-100/50 rounded-full p-1 gap-2">
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-sm">
-                <Logo className="w-5 h-5" />
-              </span>
               <a 
                 href="#hero" 
                 className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F4E3A1] text-neutral-900 shadow-sm transition-all"
