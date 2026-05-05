@@ -146,17 +146,17 @@ const BeforeAfterCard = ({ title, category, beforeSrc, afterSrc }: { title: stri
       </div>
 
       <div className="relative overflow-hidden bg-neutral-900">
-        <img src={beforeSrc} alt={`${title} before painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
-        <div className="absolute inset-y-0 right-0 overflow-hidden" style={{ width: `${slider}%` }}>
-          <img src={afterSrc} alt={`${title} after painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
+        <img src={afterSrc} alt={`${title} after painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
+        <div className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${slider}%` }}>
+          <img src={beforeSrc} alt={`${title} before painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
         </div>
         <div className="absolute inset-x-0 top-4 px-5 flex items-center justify-between">
           <span className="bg-black/70 text-white text-[11px] uppercase tracking-[0.22em] py-2 px-3 rounded-full">Before</span>
           <span className="bg-black/70 text-white text-[11px] uppercase tracking-[0.22em] py-2 px-3 rounded-full">After</span>
         </div>
         <div className="absolute inset-y-0 left-0 right-0 pointer-events-none">
-          <div className="absolute top-0 bottom-0 bg-white/80" style={{ left: `${100 - slider}%`, width: "2px" }} />
-          <div className="absolute top-1/2" style={{ left: `${100 - slider}%`, transform: "translate(-50%, -50%)" }}>
+          <div className="absolute top-0 bottom-0 bg-white/80" style={{ left: `${slider}%`, width: "2px" }} />
+          <div className="absolute top-1/2" style={{ left: `${slider}%`, transform: "translate(-50%, -50%)" }}>
             <div className="h-12 w-12 rounded-full bg-white shadow-xl border border-neutral-200 flex items-center justify-center">
               <div className="h-3 w-3 rounded-full bg-primary" />
             </div>
