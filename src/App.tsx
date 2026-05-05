@@ -147,7 +147,7 @@ const BeforeAfterCard = ({ title, category, beforeSrc, afterSrc }: { title: stri
 
       <div className="relative overflow-hidden bg-neutral-900">
         <img src={beforeSrc} alt={`${title} before painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
-        <div className="absolute inset-0 overflow-hidden" style={{ width: `${slider}%` }}>
+        <div className="absolute inset-y-0 right-0 overflow-hidden" style={{ width: `${slider}%` }}>
           <img src={afterSrc} alt={`${title} after painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
         </div>
         <div className="absolute inset-x-0 top-4 px-5 flex items-center justify-between">
@@ -155,8 +155,8 @@ const BeforeAfterCard = ({ title, category, beforeSrc, afterSrc }: { title: stri
           <span className="bg-black/70 text-white text-[11px] uppercase tracking-[0.22em] py-2 px-3 rounded-full">After</span>
         </div>
         <div className="absolute inset-y-0 left-0 right-0 pointer-events-none">
-          <div className="absolute top-0 bottom-0 bg-white/80" style={{ left: `${slider}%`, width: "2px" }} />
-          <div className="absolute top-1/2" style={{ left: `${slider}%`, transform: "translate(-50%, -50%)" }}>
+          <div className="absolute top-0 bottom-0 bg-white/80" style={{ left: `${100 - slider}%`, width: "2px" }} />
+          <div className="absolute top-1/2" style={{ left: `${100 - slider}%`, transform: "translate(-50%, -50%)" }}>
             <div className="h-12 w-12 rounded-full bg-white shadow-xl border border-neutral-200 flex items-center justify-center">
               <div className="h-3 w-3 rounded-full bg-primary" />
             </div>
@@ -290,6 +290,9 @@ function AppContent() {
             </a>
             
             <div className="hidden lg:flex items-center bg-neutral-100/50 rounded-full p-1 gap-2">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-sm">
+                <Logo className="w-5 h-5" />
+              </span>
               <a 
                 href="#hero" 
                 className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F4E3A1] text-neutral-900 shadow-sm transition-all"
@@ -526,26 +529,26 @@ function AppContent() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <BeforeAfterCard
-            title="Fireplace Feature Revival"
-            category="Interior Renovation"
+            title="Elegant Exterior Painting"
+            category="Exterior Painting"
             beforeSrc="/images/before.jpeg"
             afterSrc="/images/after.jpeg"
           />
           <BeforeAfterCard
-            title="Siding Color Refresh"
-            category="Exterior Renovation"
+            title="Interior Color Renewal"
+            category="Interior Painting"
             beforeSrc="/images/before 1.jpeg"
             afterSrc="/images/after 1.jpeg"
           />
           <BeforeAfterCard
-            title="Seamless Wall Restoration"
-            category="Interior Renovation"
+            title="Staircase Wall Revival"
+            category="Staircase Wall"
             beforeSrc="/images/before 2.jpeg"
             afterSrc="/images/after 2.jpeg"
           />
           <BeforeAfterCard
-            title="Modern Deck Transformation"
-            category="Deck Renovation"
+            title="Container Renovation"
+            category="Container Renovation"
             beforeSrc="/images/before 3.jpeg"
             afterSrc="/images/after 4.jpeg"
           />
