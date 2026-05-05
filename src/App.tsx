@@ -118,7 +118,7 @@ const Section = ({ children, className = "", innerClassName = "", id, delay = 0 
 
 const Logo = ({ className = "" }: { className?: string }) => (
   <img 
-    src="/images/lumin-paint-pro.svg" 
+    src="/images/Lumin Paint pro.png" 
     alt="Lumin Paint Pro logo" 
     className={`${className} object-contain`} 
     decoding="async"
