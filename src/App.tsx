@@ -308,17 +308,7 @@ function AppContent() {
     setStatus('loading');
 
     try {
-      /*
-      // Original Webhook Logic (Commented out as requested)
-      const response = await fetch('https://services.leadconnectorhq.com/hooks/o7aUwpKbtkP4AOP0pEjC/webhook-trigger/37f87a0e-bdb3-4e64-92d2-9a15eb22b56c', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      */
-
-      // Send email via FormSubmit AJAX API — no backend required
-      // On first submission, FormSubmit sends a one-time confirmation to sharafath2001@hotmail.com
+      // Send email via FormSubmit AJAX API
       const response = await fetch('https://formsubmit.co/ajax/sharafath2001@hotmail.com', {
         method: 'POST',
         headers: {
@@ -327,25 +317,29 @@ function AppContent() {
         },
         body: JSON.stringify({
           _subject: 'New Lead Notification – Lumin Paint Pro',
-          // FormSubmit uses the field values below as the email body
           'Full Name': formData.fullName,
           'Phone Number': formData.phone,
           'Email Address': formData.email,
           'City': formData.city,
           'Service Requested': formData.service,
           'Additional Details': formData.details || '—',
-          // Disable captcha redirect
           _captcha: 'false',
           _template: 'table',
         }),
       });
 
       const result = await response.json();
+      console.log("FormSubmit result:", result);
 
       if (result.success === 'true' || result.success === true) {
         setStatus('success');
         setFormData({ fullName: '', phone: '', email: '', city: '', service: '', details: '' });
       } else {
+        console.error("FormSubmit error message:", result.message);
+        // If the error is about verification, we still want to show a helpful message
+        if (result.message && result.message.toLowerCase().includes('verify')) {
+          alert("Please check sharafath2001@hotmail.com and click the confirmation link from FormSubmit to activate this form.");
+        }
         setStatus('error');
       }
     } catch (error) {
@@ -552,6 +546,18 @@ function AppContent() {
                         required 
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold mb-1.5 text-neutral-900">{t.contact.form.city} *</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm" 
+                        placeholder="Montreal" 
+                        required 
+                        value={formData.city}
+                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       />
                     </div>
                     
