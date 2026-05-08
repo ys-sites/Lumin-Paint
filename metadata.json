@@ -1,12 +1,6 @@
 {
-<<<<<<< HEAD
   "name": "Lumin Paint Pro",
   "description": "Professional residential and commercial painting services. Elegant finishes with a touch of gold. Get a free quote today!",
-  "requestFramePermissions": []
-=======
-  "name": "",
-  "description": "",
   "requestFramePermissions": [],
   "majorCapabilities": []
->>>>>>> f0e1a6f (feat: standardize image assets, reorder portfolio, add FormSubmit email integration)
 }
