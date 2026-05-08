@@ -92,12 +92,9 @@ export const translations = {
         }
       },
       services: [
-        "Residential Interior",
-        "Residential Exterior",
-        "Commercial Interior",
-        "Commercial Exterior",
-        "Kitchen Cabinets / Staining",
-        "Deck Stain",
+        "Premium Interior Painting",
+        "Immaculate Exterior Painting",
+        "Deck Staining & Refinishing",
         "Custom Service Request"
       ]
     },
@@ -107,7 +104,7 @@ export const translations = {
       contact: "Get in Touch",
       rights: "© 2026 Lumin Paint Pro. All rights reserved.",
       location: "Montreal, QC",
-      email: "info@luminpaintpro.ca"
+      email: "paintlumin@gmail.com"
     },
     floatingCall: "Call Now"
   },
@@ -204,12 +201,9 @@ export const translations = {
         }
       },
       services: [
-        "Intérieur Résidentiel",
-        "Extérieur Résidentiel",
-        "Intérieur Commercial",
-        "Extérieur Commercial",
-        "Armoires de cuisine / Teinture",
-        "Teinture de terrasse",
+        "Peinture intérieure de luxe",
+        "Peinture extérieure impeccable",
+        "Teinture et finition de terrasse",
         "Demande de service personnalisé"
       ]
     },
@@ -219,7 +213,7 @@ export const translations = {
       contact: "Nous contacter",
       rights: "© 2026 Lumin Paint Pro. Tous droits réservés.",
       location: "Montréal, QC",
-      email: "info@luminpaintpro.ca"
+      email: "paintlumin@gmail.com"
     },
     floatingCall: "Appeler maintenant"
   }

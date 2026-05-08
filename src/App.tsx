@@ -125,89 +125,7 @@ const Logo = ({ className = "" }: { className?: string }) => (
   />
 );
 
-const BeforeAfterCard = ({ title, category, beforeSrc, afterSrc }: { title: string; category: string; beforeSrc: string; afterSrc: string }) => {
-  const [slider, setSlider] = React.useState(50);
 
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 50, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6 }}
-      className="rounded-[28px] overflow-hidden bg-white border border-neutral-200 shadow-sm"
-      style={{ transform: "translateZ(0)" }}
-    >
-      <div className="px-6 py-5">
-        <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.26em] font-bold text-primary mb-3">
-          <span>{category}</span>
-          <span className="text-neutral-500">Slide to compare</span>
-        </div>
-        <h3 className="text-xl sm:text-2xl font-semibold text-neutral-900 mb-4">{title}</h3>
-      </div>
-
-      <div className="relative overflow-hidden bg-neutral-900">
-        <img src={afterSrc} alt={`${title} after painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
-        <div className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${slider}%` }}>
-          <img src={beforeSrc} alt={`${title} before painting`} className="w-full h-[420px] object-cover" loading="lazy" decoding="async" />
-        </div>
-        <div className="absolute inset-x-0 top-4 px-5 flex items-center justify-between">
-          <span className="bg-black/70 text-white text-[11px] uppercase tracking-[0.22em] py-2 px-3 rounded-full">Before</span>
-          <span className="bg-black/70 text-white text-[11px] uppercase tracking-[0.22em] py-2 px-3 rounded-full">After</span>
-        </div>
-        <div className="absolute inset-y-0 left-0 right-0 pointer-events-none">
-          <div className="absolute top-0 bottom-0 bg-white/80" style={{ left: `${slider}%`, width: "2px" }} />
-          <div className="absolute top-1/2" style={{ left: `${slider}%`, transform: "translate(-50%, -50%)" }}>
-            <div className="h-12 w-12 rounded-full bg-white shadow-xl border border-neutral-200 flex items-center justify-center">
-              <div className="h-3 w-3 rounded-full bg-primary" />
-            </div>
-          </div>
-        </div>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={slider}
-          onChange={(e) => setSlider(Number(e.target.value))}
-          aria-label={`Compare before and after for ${title}`}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize"
-        />
-      </div>
-    </motion.div>
-  );
-};
-
-const InfiniteImageLoop = () => {
-  const images = [
-    "/images/1.jpeg",
-    "/images/2.jpeg",
-    "/images/3.jpeg",
-    "/images/4.jpeg",
-    "/images/5.jpeg",
-    "/images/6.jpeg",
-  ];
-  const isMobile = useIsMobile();
-
-  return (
-    <div className="w-full overflow-hidden bg-neutral-50 py-10 border-y border-neutral-100">
-      <motion.div 
-        className="flex gap-4 w-max infinite-scroll"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ 
-          repeat: Infinity, 
-          ease: "linear", 
-          duration: isMobile ? 25 : 20
-        }}
-        style={{ transform: "translateZ(0)", willChange: "transform" }}
-      >
-        {[...images, ...images].map((src, i) => (
-          <div key={i} className="w-64 h-64 md:w-80 md:h-80 shrink-0 rounded-2xl overflow-hidden shadow-md" style={{ transform: "translateZ(0)" }}>
-            <img loading="lazy" decoding="async" src={src} alt={`Lumin Paint Pro project photo ${i % 6 + 1}`} className="w-full h-full object-cover" />
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  );
-};
 
 const Card = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number; key?: React.Key }) => {
   const isMobile = useIsMobile();
@@ -224,6 +142,141 @@ const Card = ({ children, className = "", delay = 0 }: { children: React.ReactNo
     >
       {children}
     </motion.div>
+  );
+};
+
+const BeforeAfterCard = ({ title, category, beforeSrc, afterSrc }: { title: string; category: string; beforeSrc: string; afterSrc: string }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 50, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6 }}
+      className="rounded-[32px] overflow-hidden bg-white border border-neutral-100 shadow-2xl shadow-neutral-200/50 flex flex-col h-full"
+      style={{ transform: "translateZ(0)" }}
+    >
+      <div className="p-6 md:p-8 text-center border-b border-neutral-50 bg-neutral-50/30">
+        <div className="flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-primary mb-3">
+          <ShinyText text={category} color="#b91c1c" shineColor="#D4AF37" speed={4} />
+        </div>
+        <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900">{title}</h3>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 p-4 md:p-5 bg-neutral-50/50 flex-grow">
+        <div className="relative rounded-2xl overflow-hidden bg-white border border-neutral-100 shadow-sm p-2 flex flex-col hover:shadow-md transition-shadow group/img h-full">
+          <div className="absolute top-4 left-4 z-10">
+            <span className="bg-white/90 backdrop-blur-md text-neutral-900 border border-neutral-200 shadow-sm text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.1em] py-1 px-2.5 rounded-full">Before</span>
+          </div>
+          <img src={beforeSrc} alt={`${category} before`} className="w-full aspect-[4/5] sm:aspect-square object-cover rounded-xl group-hover/img:scale-[1.02] transition-transform duration-500" loading="lazy" decoding="async" />
+        </div>
+        
+        <div className="relative rounded-2xl overflow-hidden bg-white border border-neutral-100 shadow-sm p-2 flex flex-col hover:shadow-md transition-shadow group/img h-full">
+          <div className="absolute top-4 right-4 z-10">
+            <span className="bg-primary/95 backdrop-blur-md text-white border border-primary/20 shadow-sm text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.1em] py-1 px-2.5 rounded-full">After</span>
+          </div>
+          <img src={afterSrc} alt={`${category} after`} className="w-full aspect-[4/5] sm:aspect-square object-cover rounded-xl group-hover/img:scale-[1.02] transition-transform duration-500" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const interiorImagesModules = import.meta.glob('/public/images/INT*.jpeg', { eager: true });
+const intImagesSource = Object.keys(interiorImagesModules).map(path => path.replace('/public', ''));
+
+const InteriorImages = () => {
+  // Use dynamically loaded interior images. If none found, fallback to placeholder array.
+  const images = intImagesSource.length > 0 ? intImagesSource : [
+    "/images/INT1.jpeg",
+    "/images/INT2.jpeg",
+    "/images/INT3.jpeg",
+    "/images/INT4.jpeg",
+    "/images/INT5.jpeg",
+    "/images/INT6.jpeg",
+    "/images/INT7.jpeg",
+  ];
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {images.map((img, i) => (
+        <motion.div 
+          key={i}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.05, duration: 0.5 }}
+          className="rounded-2xl overflow-hidden aspect-square shadow-md"
+          style={{ transform: "translateZ(0)" }}
+        >
+          <img src={img} alt={`Interior ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+const exteriorImagesModules = import.meta.glob('/public/images/EXT*.jpeg', { eager: true });
+const extImagesSource = Object.keys(exteriorImagesModules).map(path => path.replace('/public', ''));
+
+const ExteriorImages = () => {
+  const images = extImagesSource.length > 0 ? extImagesSource : [
+    "/images/EXT1.jpeg",
+    "/images/EXT2.jpeg",
+    "/images/EXT3.jpeg",
+    "/images/EXT4.jpeg"
+  ];
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {images.map((img, i) => (
+        <motion.div 
+          key={i}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.05, duration: 0.5 }}
+          className="rounded-2xl overflow-hidden aspect-square shadow-md"
+          style={{ transform: "translateZ(0)" }}
+        >
+          <img src={img} alt={`Exterior ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+const FullPortfolio = () => {
+  return (
+    <div className="pt-32 pb-24 max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-neutral-900">
+          Our Complete Portfolio
+        </h1>
+        <p className="text-neutral-600 max-w-2xl mx-auto text-lg">
+          Browse through our extensive collection of completed residential and commercial painting projects.
+        </p>
+      </div>
+
+      <div className="space-y-24">
+        <div className="space-y-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold border-b-[3px] border-gold pb-3 inline-block px-4">
+              <ShinyText text="Exterior Painting" color="#171717" shineColor="#D4AF37" speed={4} />
+            </h3>
+          </div>
+          <ExteriorImages />
+        </div>
+
+        <div className="space-y-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold border-b-[3px] border-gold pb-3 inline-block px-4">
+              <ShinyText text="Interior Painting" color="#171717" shineColor="#D4AF37" speed={4} />
+            </h3>
+          </div>
+          <InteriorImages />
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -248,21 +301,48 @@ function AppContent() {
     details: ''
   });
   const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [activePage, setActivePage] = React.useState<'home' | 'portfolio'>('home');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    
+
     try {
+      /*
+      // Original Webhook Logic (Commented out as requested)
       const response = await fetch('https://services.leadconnectorhq.com/hooks/o7aUwpKbtkP4AOP0pEjC/webhook-trigger/37f87a0e-bdb3-4e64-92d2-9a15eb22b56c', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      */
+
+      // Send email via FormSubmit AJAX API — no backend required
+      // On first submission, FormSubmit sends a one-time confirmation to sharafath2001@hotmail.com
+      const response = await fetch('https://formsubmit.co/ajax/sharafath2001@hotmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          _subject: 'New Lead Notification – Lumin Paint Pro',
+          // FormSubmit uses the field values below as the email body
+          'Full Name': formData.fullName,
+          'Phone Number': formData.phone,
+          'Email Address': formData.email,
+          'City': formData.city,
+          'Service Requested': formData.service,
+          'Additional Details': formData.details || '—',
+          // Disable captcha redirect
+          _captcha: 'false',
+          _template: 'table',
+        }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (result.success === 'true' || result.success === true) {
         setStatus('success');
         setFormData({ fullName: '', phone: '', email: '', city: '', service: '', details: '' });
       } else {
@@ -290,24 +370,25 @@ function AppContent() {
             </a>
             
             <div className="hidden lg:flex items-center bg-neutral-100/50 rounded-full p-1 gap-2">
-              <a 
-                href="#hero" 
-                className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F4E3A1] text-neutral-900 shadow-sm transition-all"
+              <button 
+                onClick={() => { setActivePage('home'); window.scrollTo(0,0); }}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activePage === 'home' ? 'bg-[#F4E3A1] text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-900 font-medium'}`}
               >
                 {t.nav.home}
-              </a>
+              </button>
               <a 
-                href="#services" 
+                href={activePage === 'home' ? "#services" : "#"}
+                onClick={(e) => { if (activePage !== 'home') { e.preventDefault(); setActivePage('home'); setTimeout(() => window.location.hash = 'services', 100); } }}
                 className="px-4 py-1.5 rounded-full text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-all"
               >
                 {t.nav.services}
               </a>
-              <a 
-                href="#portfolio" 
-                className="px-4 py-1.5 rounded-full text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-all"
+              <button 
+                onClick={() => { setActivePage('portfolio'); window.scrollTo(0,0); }}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activePage === 'portfolio' ? 'bg-[#F4E3A1] text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-900 font-medium'}`}
               >
                 {t.nav.portfolio}
-              </a>
+              </button>
               <a 
                 href="#testimonials" 
                 className="px-4 py-1.5 rounded-full text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-all"
@@ -340,8 +421,10 @@ function AppContent() {
         </nav>
       </motion.div>
 
-      {/* Hero - Attention & Intent */}
-      <Section id="hero" className="pt-32 pb-24 text-center relative overflow-hidden min-h-[85vh] flex items-center justify-center">
+      {activePage === 'home' ? (
+        <>
+          {/* Hero - Attention & Intent */}
+      <Section id="hero" className="pt-32 pb-24 relative overflow-hidden min-h-[85vh] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <motion.div 
             className="w-full h-full"
@@ -349,64 +432,167 @@ function AppContent() {
             animate={{ scale: 1 }}
             transition={{ duration: 8, ease: "easeOut" }}
             style={{
-              backgroundImage: `url('/images/1.jpeg')`,
+              backgroundImage: `url('/images/INT1.jpeg')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               transform: "translateZ(0)",
             }}
           />
-          <div className="absolute inset-0 bg-black/30" style={{ transform: "translateZ(0)" }}></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" style={{ transform: "translateZ(0)" }}></div>
+          <div className="absolute inset-0 bg-black/40" style={{ transform: "translateZ(0)" }}></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" style={{ transform: "translateZ(0)" }}></div>
         </div>
         
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/10 text-white font-medium text-xs sm:text-sm mb-6 sm:mb-8 backdrop-blur-md border border-gold/40"
-            style={{ transform: "translateZ(0)" }}
-          >
-            <Sparkles size={14} className="text-gold" /> {t.hero.badge}
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 sm:mb-8 text-white drop-shadow-2xl leading-[1.1] max-w-4xl mx-auto"
-            style={{ transform: "translateZ(0)" }}
-          >
-            <ShinyText text={t.hero.title} color="#ffffff" shineColor="#D4AF37" speed={4} />
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-base sm:text-lg md:text-xl text-white/90 mb-8 sm:mb-12 max-w-2xl mx-auto font-medium drop-shadow-lg leading-relaxed"
-            style={{ transform: "translateZ(0)" }}
-          >
-            {t.hero.subtitle}
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col items-center justify-center gap-4"
-            style={{ transform: "translateZ(0)" }}
-          >
-            <a href="#contact" className="bg-primary text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg hover:bg-gold/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1">
-              {t.hero.cta} <ArrowRight size={18} />
-            </a>
-            <p className="text-xs sm:text-sm text-white/80 font-semibold flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full backdrop-blur-md border border-white/20 shadow-sm">
-              <Clock size={12} /> {t.hero.consultation}
-            </p>
-          </motion.div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full mt-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            {/* Left Column: Text */}
+            <div className="text-left">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/10 text-white font-medium text-xs sm:text-sm mb-6 sm:mb-8 backdrop-blur-md border border-gold/40"
+                style={{ transform: "translateZ(0)" }}
+              >
+                <Sparkles size={14} className="text-gold" /> {t.hero.badge}
+              </motion.div>
+              
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 sm:mb-8 text-white drop-shadow-2xl leading-[1.1]"
+                style={{ transform: "translateZ(0)" }}
+              >
+                <ShinyText text={t.hero.title} color="#ffffff" shineColor="#D4AF37" speed={4} />
+              </motion.h1>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-base sm:text-lg md:text-xl text-white/90 mb-8 sm:mb-12 font-medium drop-shadow-lg leading-relaxed max-w-xl"
+                style={{ transform: "translateZ(0)" }}
+              >
+                {t.hero.subtitle}
+              </motion.p>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                style={{ transform: "translateZ(0)" }}
+              >
+                <p className="text-xs sm:text-sm text-white/80 font-semibold flex items-center gap-2 bg-white/10 px-4 py-2.5 rounded-full backdrop-blur-md border border-white/20 shadow-sm">
+                  <Clock size={16} /> {t.hero.consultation}
+                </p>
+              </motion.div>
+            </div>
+
+            {/* Right Column: Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="w-full max-w-md mx-auto lg:ml-auto"
+            >
+              <Card className="!p-6 md:!p-8 shadow-2xl border-none bg-white/95 backdrop-blur-md">
+                <div className="mb-6">
+                  <h3 className="text-xl md:text-2xl font-bold mb-2 text-neutral-900">Get a Free Quote</h3>
+                  <p className="text-sm text-neutral-600">from Lumin Paint Pro</p>
+                </div>
+                {status === 'success' ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-8"
+                  >
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle size={32} />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold mb-2">{t.contact.form.success.title}</h3>
+                    <p className="text-neutral-600 mb-8 text-sm md:text-base">{t.contact.form.success.desc}</p>
+                    <button 
+                      onClick={() => setStatus('idle')}
+                      className="text-primary font-bold hover:underline"
+                    >
+                      {t.contact.form.success.button}
+                    </button>
+                  </motion.div>
+                ) : (
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <div>
+                      <label className="block text-xs font-bold mb-1.5 text-neutral-900">{t.contact.form.name} *</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm" 
+                        placeholder="Jean Francois" 
+                        required 
+                        value={formData.fullName}
+                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-1.5 text-neutral-900">{t.contact.form.phone} *</label>
+                      <input 
+                        type="tel" 
+                        className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm" 
+                        placeholder="(438) 406-2726" 
+                        required 
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-1.5 text-neutral-900">{t.contact.form.email} *</label>
+                      <input 
+                        type="email" 
+                        className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm" 
+                        placeholder="jean@example.com" 
+                        required 
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-xs font-bold mb-1.5 text-neutral-900">{t.contact.form.serviceLabel} *</label>
+                      <select 
+                        className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white appearance-none text-sm" 
+                        required 
+                        value={formData.service}
+                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                      >
+                        <option value="" disabled>{t.contact.form.servicePlaceholder}</option>
+                        {t.contact.services.map((option, i) => (
+                          <option key={i}>{option}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    {status === 'error' && (
+                      <p className="text-red-500 text-xs font-medium">{t.contact.form.error}</p>
+                    )}
+
+                    <button 
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className="w-full bg-primary text-white font-bold text-sm py-3.5 rounded-xl hover:bg-rose-700 transition-all mt-2 flex justify-center items-center gap-2 shadow-lg shadow-primary/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {status === 'loading' ? t.contact.form.sending : t.contact.form.submit} <ArrowRight size={16} />
+                    </button>
+                    <p className="text-center text-[10px] text-neutral-500 mt-2 flex items-center justify-center gap-1.5">
+                      <ShieldCheck size={12} /> {t.contact.form.secure}
+                    </p>
+                  </form>
+                )}
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </Section>
 
-      <InfiniteImageLoop />
+
 
       {/* Services */}
       <Section id="services">
@@ -516,110 +702,60 @@ function AppContent() {
 
 
       {/* Portfolio */}
-      <Section id="portfolio" className="bg-white">
-        <FadeIn className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 tracking-tight">
+      <Section id="portfolio" className="bg-neutral-50/50 border-y border-neutral-100">
+        <FadeIn className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             <ShinyText text="Our Work Portfolio" color="#171717" shineColor="#D4AF37" speed={4} />
           </h2>
-          <p className="text-neutral-600 max-w-2xl mx-auto">Explore the real transformation with a before and after slider of our recent exterior work.</p>
+          <p className="text-neutral-600 max-w-2xl mx-auto text-lg font-medium">
+            <ShinyText text="Explore the real transformation with our before and after photos." color="#525252" shineColor="#D4AF37" speed={5} />
+          </p>
         </FadeIn>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <BeforeAfterCard
-            title="Elegant Exterior Painting"
-            category="Exterior Painting"
-            beforeSrc="/images/before.jpeg"
-            afterSrc="/images/after.jpeg"
-          />
-          <BeforeAfterCard
-            title="Interior Color Renewal"
-            category="Interior Painting"
-            beforeSrc="/images/before 1.jpeg"
-            afterSrc="/images/after 1.jpeg"
-          />
-          <BeforeAfterCard
-            title="Staircase Wall Revival"
-            category="Staircase Wall"
-            beforeSrc="/images/before 2.jpeg"
-            afterSrc="/images/after 2.jpeg"
-          />
-          <BeforeAfterCard
-            title="Container Renovation"
-            category="Container Renovation"
-            beforeSrc="/images/before 3.jpeg"
-            afterSrc="/images/after 4.jpeg"
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          {/* Exterior Section */}
+          <div className="flex flex-col h-full space-y-8">
+            <div className="text-center">
+              <h3 className="text-3xl font-bold border-b-[3px] border-gold pb-3 inline-block px-4">
+                <ShinyText text="Exterior Painting" color="#171717" shineColor="#D4AF37" speed={4} />
+              </h3>
+            </div>
+            <BeforeAfterCard
+              title="Elegant Exterior Painting"
+              category="Exterior Painting"
+              beforeSrc="/images/EXT6.jpeg"
+              afterSrc="/images/EXT4.jpeg"
+            />
+          </div>
+          
+          {/* Interior Section */}
+          <div className="flex flex-col h-full space-y-8">
+             <div className="text-center">
+              <h3 className="text-3xl font-bold border-b-[3px] border-gold pb-3 inline-block px-4">
+                <ShinyText text="Interior Painting" color="#171717" shineColor="#D4AF37" speed={4} />
+              </h3>
+            </div>
+            <BeforeAfterCard
+              title="Interior Color Renewal"
+              category="Interior Painting"
+              beforeSrc="/images/INT7.jpeg"
+              afterSrc="/images/INT5.jpeg"
+            />
+          </div>
+        </div>
+
+        <div className="mt-20 text-center">
+          <button 
+            onClick={() => { setActivePage('portfolio'); window.scrollTo(0,0); }}
+            className="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gold/90 transition-all inline-flex items-center gap-2 shadow-lg hover:-translate-y-1 cursor-pointer"
+          >
+            <ShinyText text="View Full Portfolio" color="#ffffff" shineColor="#FFF8D6" speed={3} />
+            <ArrowRight size={18} />
+          </button>
         </div>
       </Section>
 
-      {/* Why Choose Lumin Paint Pro */}
-      <Section id="about" className="!py-0 !px-0" innerClassName="!max-w-none !mx-0">
-        <div className="grid md:grid-cols-2 min-h-[600px]">
-          {/* Image Side */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6 }}
-            className="relative h-[400px] md:h-auto w-full"
-            style={{ transform: "translateZ(0)" }}
-          >
-            <img 
-              loading="lazy"
-              src="/images/1.jpeg" 
-              alt="Professional Painter" 
-              className="w-full h-full object-cover brightness-105 contrast-105 transition-all duration-500 md:grayscale md:hover:grayscale-0"
-            />
-          </motion.div>
-          
-          {/* Content Side */}
-          <div className="bg-neutral-900 text-white p-12 md:p-20 lg:p-24 flex flex-col justify-center" style={{ transform: "translateZ(0)" }}>
-            <FadeIn delay={0.1}>
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight whitespace-nowrap">
-                <ShinyText text={t.about.title} color="#ffffff" shineColor="#D4AF37" speed={4} />
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <p className="text-xl font-medium mb-8 text-white/80">{t.about.subtitle}</p>
-            </FadeIn>
-            
-            <FadeIn delay={0.3}>
-              <p className="mb-8 text-white/70 leading-relaxed text-lg">
-                {t.about.desc}
-              </p>
-            </FadeIn>
-            
-            <ul className="space-y-4 mb-10">
-              {t.about.points.map((item, i) => (
-                <motion.li 
-                  key={i} 
-                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.4, delay: 0.4 + (0.08 * i) }}
-                  className="flex items-start gap-4"
-                  style={{ transform: "translateZ(0)" }}
-                >
-                  <div className="mt-2 w-2 h-2 rounded-full bg-primary shrink-0" />
-                  <span className="text-white/90 text-lg">{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-            
-            <FadeIn delay={0.7}>
-              <p className="mb-10 text-white/90 font-medium text-lg">
-                <span className="underline underline-offset-4 decoration-primary">{t.about.goal}</span>
-              </p>
-            </FadeIn>
-            
-            <FadeIn delay={0.8}>
-              <a href="#contact" className="inline-block bg-primary text-white px-8 py-4 font-bold hover:bg-gold/90 transition-colors rounded-sm">
-                {t.about.cta}
-              </a>
-            </FadeIn>
-          </div>
-        </div>
-      </Section>
+
 
       {/* Proof - Validating the Outcome */}
       <Section id="testimonials" className="overflow-hidden">
@@ -665,154 +801,10 @@ function AppContent() {
         </FadeIn>
       </Section>
 
-      {/* Frictionless CTA Form */}
-      <Section id="contact" className="bg-neutral-50 border-y border-neutral-100 relative overflow-hidden group/main">
-        {/* Background Images with Fade */}
-        <div className="absolute inset-0 z-0 pointer-events-auto hidden md:block">
-          <div className="grid grid-cols-6 grid-rows-6 h-full">
-            {[
-              "/images/1.jpeg", "/images/4.jpeg", "/images/3.jpeg", "/images/6.jpeg", "/images/2.jpeg", "/images/5.jpeg",
-              "/images/2.jpeg", "/images/5.jpeg", "/images/6.jpeg", "/images/1.jpeg", "/images/4.jpeg", "/images/3.jpeg",
-              "/images/3.jpeg", "/images/6.jpeg", "/images/1.jpeg", "/images/5.jpeg", "/images/2.jpeg", "/images/4.jpeg",
-              "/images/4.jpeg", "/images/1.jpeg", "/images/5.jpeg", "/images/2.jpeg", "/images/6.jpeg", "/images/3.jpeg",
-              "/images/5.jpeg", "/images/2.jpeg", "/images/4.jpeg", "/images/3.jpeg", "/images/1.jpeg", "/images/6.jpeg",
-              "/images/6.jpeg", "/images/3.jpeg", "/images/2.jpeg", "/images/4.jpeg", "/images/5.jpeg", "/images/1.jpeg"
-            ].map((img, i) => (
-              <div key={i} className="relative group/item" style={{ transform: "translateZ(0)" }}>
-                <img loading="lazy" src={img} alt="" className="w-full h-full object-cover opacity-5 group-hover/main:blur-sm group-hover/main:opacity-10 transition-all duration-500" />
-                <img loading="lazy" src={img} alt="" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/item:opacity-100 group-hover/item:blur-0 transition-all duration-300" />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto relative z-10 px-4">
-          <FadeIn className="text-center mb-8">
-            <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
-              <ShinyText text={t.contact.title} color="#171717" shineColor="#D4AF37" speed={4} />
-            </h2>
-            <p className="text-neutral-600 text-base md:text-lg">{t.contact.subtitle}</p>
-          </FadeIn>
-          
-          <Card className="!p-6 md:!p-10 shadow-xl shadow-neutral-200/50 border-none" delay={0.2}>
-            {status === 'success' ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-12"
-              >
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle size={32} md-size={40} />
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-2">{t.contact.form.success.title}</h3>
-                <p className="text-neutral-600 mb-8 text-sm md:text-base">{t.contact.form.success.desc}</p>
-                <button 
-                  onClick={() => setStatus('idle')}
-                  className="text-primary font-bold hover:underline"
-                >
-                  {t.contact.form.success.button}
-                </button>
-              </motion.div>
-            ) : (
-              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-                  <div>
-                    <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.name} *</label>
-                    <input 
-                      type="text" 
-                      className="w-full px-3 md:px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm md:text-base" 
-                      placeholder="Jean Francois" 
-                      required 
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.phone} *</label>
-                    <input 
-                      type="tel" 
-                      className="w-full px-3 md:px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm md:text-base" 
-                      placeholder="(514) 622-1599" 
-                      required 
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-                    <div>
-                      <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.email} *</label>
-                      <input 
-                        type="email" 
-                        className="w-full px-3 md:px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm md:text-base" 
-                        placeholder="jean@example.com" 
-                        required 
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.city} *</label>
-                      <input 
-                        type="text" 
-                        className="w-full px-3 md:px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm md:text-base" 
-                        placeholder="Montreal" 
-                        required 
-                        value={formData.city}
-                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      />
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.serviceLabel} *</label>
-                  <select 
-                    className="w-full px-3 md:px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white appearance-none text-sm md:text-base" 
-                    required 
-                    value={formData.service}
-                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  >
-                    <option value="" disabled>{t.contact.form.servicePlaceholder}</option>
-                    {t.contact.services.map((option, i) => (
-                      <option key={i}>{option}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-xs md:text-sm font-bold mb-1.5 md:mb-2 text-neutral-900">{t.contact.form.details}</label>
-                  <textarea 
-                    className="w-full px-3 md:px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm md:text-base" 
-                    rows={3} 
-                    placeholder={t.contact.form.detailsPlaceholder}
-                    value={formData.details}
-                    onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-                  ></textarea>
-                </div>
-                
-                {status === 'error' && (
-                  <p className="text-red-500 text-xs md:text-sm font-medium">{t.contact.form.error}</p>
-                )}
-
-                <button 
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full bg-primary text-white font-bold text-base md:text-lg py-4 md:py-5 rounded-xl hover:bg-rose-700 transition-all mt-2 md:mt-4 flex justify-center items-center gap-2 shadow-lg shadow-primary/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {status === 'loading' ? t.contact.form.sending : t.contact.form.submit} <ArrowRight size={18} md-size={20} />
-                </button>
-                <p className="text-center text-[10px] md:text-xs text-neutral-500 mt-3 md:mt-4 flex items-center justify-center gap-1.5">
-                  <ShieldCheck size={12} md-size={14} /> {t.contact.form.secure}
-                </p>
-              </form>
-            )}
-          </Card>
-        </div>
-      </Section>
-
+        </>
+      ) : (
+        <FullPortfolio />
+      )}
 
       {/* Footer */}
       <footer className="bg-neutral-950 text-neutral-400 py-10 border-t border-neutral-900">
@@ -838,15 +830,15 @@ function AppContent() {
             <div>
               <h4 className="text-white font-bold mb-6">{t.footer.links}</h4>
               <ul className="space-y-3">
-                <li><a href="#services" className="hover:text-primary transition-colors">{t.nav.services}</a></li>
-                <li><a href="#portfolio" className="hover:text-primary transition-colors">{t.nav.portfolio}</a></li>
-                <li><a href="#testimonials" className="hover:text-primary transition-colors">{t.nav.reviews}</a></li>
+                <li><a onClick={(e) => { if (activePage !== 'home') { e.preventDefault(); setActivePage('home'); setTimeout(() => window.location.hash = 'services', 100); } }} href="#services" className="hover:text-primary transition-colors cursor-pointer">{t.nav.services}</a></li>
+                <li><a onClick={(e) => { e.preventDefault(); setActivePage('portfolio'); window.scrollTo(0,0); }} href="#portfolio" className="hover:text-primary transition-colors cursor-pointer">{t.nav.portfolio}</a></li>
+                <li><a onClick={(e) => { if (activePage !== 'home') { e.preventDefault(); setActivePage('home'); setTimeout(() => window.location.hash = 'testimonials', 100); } }} href="#testimonials" className="hover:text-primary transition-colors cursor-pointer">{t.nav.reviews}</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-bold mb-6">{t.footer.contact}</h4>
               <ul className="space-y-3">
-                <li className="flex items-center gap-3"><Phone size={16} className="text-primary" /> (514) 622-1599</li>
+                <li className="flex items-center gap-3"><Phone size={16} className="text-primary" /> (438) 406-2726</li>
                 <li className="flex items-center gap-3"><Mail size={16} className="text-primary" /> {t.footer.email}</li>
                 <li className="flex items-center gap-3"><MapPin size={16} className="text-primary" /> {t.footer.location}</li>
               </ul>
@@ -860,7 +852,7 @@ function AppContent() {
 
       {/* Floating Call Button */}
       <motion.a
-        href="tel:5146221599"
+        href="tel:4384062726"
         initial={{ opacity: 0, scale: 0.5, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         whileHover={{ scale: 1.1 }}
@@ -871,7 +863,7 @@ function AppContent() {
       >
         <Phone size={24} className="group-hover:animate-bounce" />
         <span className="absolute right-full mr-4 bg-white text-neutral-900 px-4 py-2 rounded-xl text-sm font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-neutral-100 hidden sm:block">
-          {t.hero.consultation.split('•')[0]} (514) 622-1599
+          {t.hero.consultation.split('•')[0]} (438) 406-2726
         </span>
       </motion.a>
     </main>
