@@ -181,8 +181,8 @@ const BeforeAfterCard = ({ title, category, beforeSrc, afterSrc }: { title: stri
   );
 };
 
-const interiorImagesModules = import.meta.glob('/public/images/INT*.jpeg', { eager: true });
-const intImagesSource = Object.keys(interiorImagesModules).map(path => path.replace('/public', ''));
+const interiorImagesModules = import.meta.glob('../public/images/INT*.jpeg', { eager: true });
+const intImagesSource = Object.keys(interiorImagesModules).map(path => path.replace('../public', ''));
 
 const InteriorImages = () => {
   // Use dynamically loaded interior images. If none found, fallback to placeholder array.
@@ -215,8 +215,8 @@ const InteriorImages = () => {
   );
 };
 
-const exteriorImagesModules = import.meta.glob('/public/images/EXT*.jpeg', { eager: true });
-const extImagesSource = Object.keys(exteriorImagesModules).map(path => path.replace('/public', ''));
+const exteriorImagesModules = import.meta.glob('../public/images/EXT*.jpeg', { eager: true });
+const extImagesSource = Object.keys(exteriorImagesModules).map(path => path.replace('../public', ''));
 
 const ExteriorImages = () => {
   const images = extImagesSource.length > 0 ? extImagesSource : [
