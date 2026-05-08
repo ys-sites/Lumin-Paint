@@ -42,10 +42,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
             <h2 className="text-2xl font-bold text-neutral-900 mb-4">Something went wrong</h2>
             <p className="text-neutral-600 mb-6">The application encountered an unexpected error. Please try refreshing the page.</p>
             <button 
-              onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-primary text-white rounded-full font-semibold hover:bg-primary/90 transition-colors"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-gold text-white font-bold py-3 px-8 rounded-xl hover:bg-gold-dark transition-all flex items-center gap-2 mx-auto"
             >
-              Refresh Page
+              Get In Touch <ArrowRight size={18} />
             </button>
             {import.meta.env.DEV && (
               <pre className="mt-6 p-4 bg-neutral-100 rounded text-left text-xs overflow-auto max-h-40">
@@ -366,7 +366,7 @@ function AppContent() {
             <div className="hidden lg:flex items-center bg-neutral-100/50 rounded-full p-1 gap-2">
               <button 
                 onClick={() => { setActivePage('home'); window.scrollTo(0,0); }}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activePage === 'home' ? 'bg-[#F4E3A1] text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-900 font-medium'}`}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activePage === 'home' ? 'bg-gold text-white shadow-sm' : 'text-neutral-500 hover:text-neutral-900 font-medium'}`}
               >
                 {t.nav.home}
               </button>
@@ -379,7 +379,7 @@ function AppContent() {
               </a>
               <button 
                 onClick={() => { setActivePage('portfolio'); window.scrollTo(0,0); }}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activePage === 'portfolio' ? 'bg-[#F4E3A1] text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-900 font-medium'}`}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activePage === 'portfolio' ? 'bg-gold text-white shadow-sm' : 'text-neutral-500 hover:text-neutral-900 font-medium'}`}
               >
                 {t.nav.portfolio}
               </button>
@@ -396,13 +396,13 @@ function AppContent() {
             <div className="flex items-center bg-neutral-100/50 rounded-full p-1 mr-2">
               <button 
                 onClick={() => setLang('en')} 
-                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${lang === 'en' ? 'bg-white text-primary shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
+                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${lang === 'en' ? 'bg-gold text-white shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
               >
                 EN
               </button>
               <button 
                 onClick={() => setLang('fr')} 
-                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${lang === 'fr' ? 'bg-white text-primary shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
+                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${lang === 'fr' ? 'bg-gold text-white shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
               >
                 FR
               </button>
@@ -508,7 +508,7 @@ function AppContent() {
                     <p className="text-neutral-600 mb-8 text-sm md:text-base">{t.contact.form.success.desc}</p>
                     <button 
                       onClick={() => setStatus('idle')}
-                      className="text-primary font-bold hover:underline"
+                      className="text-gold font-bold hover:underline"
                     >
                       {t.contact.form.success.button}
                     </button>
@@ -583,7 +583,7 @@ function AppContent() {
                     <button 
                       type="submit"
                       disabled={status === 'loading'}
-                      className="w-full bg-primary text-white font-bold text-sm py-3.5 rounded-xl hover:bg-rose-700 transition-all mt-2 flex justify-center items-center gap-2 shadow-lg shadow-primary/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-gold text-white font-bold text-sm py-3.5 rounded-xl hover:bg-gold-dark transition-all mt-2 flex justify-center items-center gap-2 shadow-lg shadow-gold/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {status === 'loading' ? t.contact.form.sending : t.contact.form.submit} <ArrowRight size={16} />
                     </button>

@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #D4AF37;
+  --color-gold: #D4AF37;
+  --color-gold-light: #F1D279;
+  --color-gold-dark: #A68026;
+  
+  --font-sans: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply antialiased text-neutral-900 bg-white;
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-gold text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-gold/20 hover:bg-gold-dark hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2;
+  }
+}
