@@ -575,6 +575,16 @@ function AppContent() {
                         ))}
                       </select>
                     </div>
+
+                    <div>
+                      <label className="block text-xs font-bold mb-1.5 text-neutral-900">{t.contact.form.details}</label>
+                      <textarea 
+                        className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm min-h-[80px] resize-none" 
+                        placeholder={t.contact.form.detailsPlaceholder}
+                        value={formData.details}
+                        onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                      />
+                    </div>
                     
                     {status === 'error' && (
                       <p className="text-red-500 text-xs font-medium">{t.contact.form.error}</p>
