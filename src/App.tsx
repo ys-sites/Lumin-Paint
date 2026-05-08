@@ -309,7 +309,7 @@ function AppContent() {
 
     try {
       // Send email via FormSubmit AJAX API
-      const response = await fetch('https://formsubmit.co/ajax/sharafath2001@hotmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/paintlumin@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -338,7 +338,7 @@ function AppContent() {
         console.error("FormSubmit error message:", result.message);
         // If the error is about verification, we still want to show a helpful message
         if (result.message && result.message.toLowerCase().includes('verify')) {
-          alert("Please check sharafath2001@hotmail.com and click the confirmation link from FormSubmit to activate this form.");
+          alert("Please check paintlumin@gmail.com and click the confirmation link from FormSubmit to activate this form.");
         }
         setStatus('error');
       }
