@@ -531,7 +531,7 @@ function AppContent() {
                       <input 
                         type="tel" 
                         className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-sm" 
-                        placeholder="(438) 406-2726" 
+                        placeholder="(438) 600-6104" 
                         required 
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -854,7 +854,7 @@ function AppContent() {
             <div>
               <h4 className="text-white font-bold mb-6">{t.footer.contact}</h4>
               <ul className="space-y-3">
-                <li className="flex items-center gap-3"><Phone size={16} className="text-primary" /> (438) 406-2726</li>
+                <li className="flex items-center gap-3"><Phone size={16} className="text-primary" /> (438) 600-6104</li>
                 <li className="flex items-center gap-3"><Mail size={16} className="text-primary" /> {t.footer.email}</li>
                 <li className="flex items-center gap-3"><MapPin size={16} className="text-primary" /> {t.footer.location}</li>
               </ul>
@@ -868,7 +868,7 @@ function AppContent() {
 
       {/* Floating Call Button */}
       <motion.a
-        href="tel:4384062726"
+        href="tel:4386006104"
         initial={{ opacity: 0, scale: 0.5, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         whileHover={{ scale: 1.1 }}
@@ -879,7 +879,7 @@ function AppContent() {
       >
         <Phone size={24} className="group-hover:animate-bounce" />
         <span className="absolute right-full mr-4 bg-white text-neutral-900 px-4 py-2 rounded-xl text-sm font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-neutral-100 hidden sm:block">
-          {t.hero.consultation.split('•')[0]} (438) 406-2726
+          {t.hero.consultation.split('•')[0]} (438) 600-6104
         </span>
       </motion.a>
     </main>
